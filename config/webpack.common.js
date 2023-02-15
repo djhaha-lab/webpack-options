@@ -2,8 +2,9 @@ const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
+const { VueLoaderPlugin } = require("vue-loader/dist/index");
 module.exports = {
-  entry: "./src/index.js",
+  entry: "/src/index.js",
   //多入口
   // entry: {
   //   index: "./src/index.js",
@@ -17,6 +18,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "管理输出",
     }),
+    new VueLoaderPlugin(),
+    // new DefinePlugin({
+    //   __VUE_OPTIONS_API__: true, //对vue2的optionsApi是否支持   若都是用的是vue3：setup 设置为false则通过tree_shaking 打包体积会更小
+    //   __VUE_PROD_DEVTOOLS__: false, //在生产中启用/禁用 devtools 支持，默认值：false
+    // }),
+
     //例如把这个应用程序中的模块依赖，改为一个全局变量依赖。要实现这些，我们需要使用 ProvidePlugin 插件。
     // new webpack.ProvidePlugin({
     //   _: "lodash",
@@ -27,7 +34,7 @@ module.exports = {
   ],
   output: {
     filename: "[name].[contenthash].js", //contenthash预防浏览器缓存
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "../dist"),
     clean: true, //在每次构建前清理 /dist 文件夹，这样只会生成用到的文件。
     publicPath: "/",
     //自定义输出文件名
@@ -36,11 +43,11 @@ module.exports = {
 
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        include: path.resolve(__dirname, "src"), //使用 include 字段，仅将 loader 应用在实际需要将其转换的模块
-        loader: "babel-loader",
-      },
+      // {
+      //   test: /\.js$/,
+      //   include: path.resolve(__dirname, "src"), //使用 include 字段，仅将 loader 应用在实际需要将其转换的模块
+      //   loader: "babel-loader",
+      // },
       {
         test: /\.css$/i,
 
@@ -51,15 +58,15 @@ module.exports = {
         loader: "vue-loader",
       },
       //resource模块以单文件形式打包
-      {
-        test: /\.(png|jpg|jpeg|gif)$/i,
+      // {
+      //   test: /\.(png|jpg|jpeg|gif)$/i,
 
-        type: "asset/resource",
-        //自定义输出文件名
-        generator: {
-          filename: "images/[hash][ext][query]",
-        },
-      },
+      //   type: "asset/resource",
+      //   //自定义输出文件名
+      //   generator: {
+      //     filename: "images/[hash][ext][query]",
+      //   },
+      // },
       {
         test: /\.svg/,
 
