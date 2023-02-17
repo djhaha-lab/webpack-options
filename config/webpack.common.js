@@ -3,8 +3,9 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const { VueLoaderPlugin } = require("vue-loader/dist/index");
+const WindicssWebpackPlugin = require("windicss-webpack-plugin");
 module.exports = {
-  entry: "/src/index.js",
+  entry: "/src/main.js",
   //多入口
   // entry: {
   //   index: "./src/index.js",
@@ -13,12 +14,24 @@ module.exports = {
   //   // Dev server client for web socket transport, hot and live reload logic
   //   client: "webpack-dev-server/client/index.js?hot=true&live-reload=true",
   // },
-
+  //从 CDN 引入 jQuery，而不是把它打包
+  // externals: {<p></p>
+  //   jquery: "jQuery",
+  // },
+  //配路径别名
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "../src"),
+    },
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "管理输出",
+      template: "index.html", //写入自己的模板
     }),
+    new WindicssWebpackPlugin(),
     new VueLoaderPlugin(),
+
     // new DefinePlugin({
     //   __VUE_OPTIONS_API__: true, //对vue2的optionsApi是否支持   若都是用的是vue3：setup 设置为false则通过tree_shaking 打包体积会更小
     //   __VUE_PROD_DEVTOOLS__: false, //在生产中启用/禁用 devtools 支持，默认值：false
@@ -43,15 +56,28 @@ module.exports = {
 
   module: {
     rules: [
-      // {
-      //   test: /\.js$/,
-      //   include: path.resolve(__dirname, "src"), //使用 include 字段，仅将 loader 应用在实际需要将其转换的模块
-      //   loader: "babel-loader",
-      // },
+      {
+        test: /\.js$/,
+        include: path.resolve(__dirname, "src"), //使用 include 字段，仅将 loader 应用在实际需要将其转换的模块
+        loader: "babel-loader",
+        //进一步优化polyfills
+        options: {
+          presets: [
+            [
+              "@babel/preset-env",
+              {
+                targets: ["last 1 version", "> 1%"],
+                useBuiltIns: "usage",
+                corejs: 3,
+              },
+            ],
+          ],
+        },
+      },
       {
         test: /\.css$/i,
 
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.vue/,

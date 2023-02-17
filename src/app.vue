@@ -1,14 +1,11 @@
-<script>
-console.log('dujiahao');
-export default {
-  name: 'dujiahao'
-}
-</script>
-
 <template>
-  <div></div>
+  <div>
+    <d-button type="primary">登录</d-button>
+  </div>
 </template>
 
-<style scoped>
+<script setup>
+import DButton from "@/components/Button/index.vue";
+</script>
 
-</style>
+<style lang="scss" scoped></style>
