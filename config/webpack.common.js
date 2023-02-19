@@ -51,7 +51,7 @@ module.exports = {
     clean: true, //在每次构建前清理 /dist 文件夹，这样只会生成用到的文件。
     publicPath: "/",
     //自定义输出文件名
-    assetModuleFilename: "assets/[hash][ext][query]",
+    assetModuleFilename: "assets/[hash][ext]",
   },
 
   module: {
@@ -77,7 +77,7 @@ module.exports = {
       {
         test: /\.css$/i,
 
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.vue/,

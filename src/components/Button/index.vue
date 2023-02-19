@@ -12,7 +12,7 @@ import { ref, toRefs } from "vue";
 
 const props = defineProps({ type: { default: "default" } });
 let { type: classType } = toRefs(props);
-console.log(classType);
+
 const buttonType = {
   default: "default",
   primary: "primary",

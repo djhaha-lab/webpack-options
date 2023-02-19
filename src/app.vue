@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <d-button type="primary">登录</d-button>
-  </div>
+  <Home></Home>
 </template>
 
 <script setup>
-import DButton from "@/components/Button/index.vue";
+import Home from "@/views/Home.vue";
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>
